@@ -1,0 +1,55 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container">
+  <div class="mt-5 row">
+    <div class="col-12 col-md-6 mx-auto">
+      <form class="border border-1 border-info p-4 rounded">
+        <legend class="text-uppercase text-info ">Registro</legend>
+        <div class="row">
+          <div>
+            <label for="exampleInputPassword1" class="form-label mt-4 text-uppercase "
+              >UserName</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="exampleInputPassword1"
+              placeholder="Tu nombre de usuario"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="exampleInputPassword1" class="form-label mt-4 text-uppercase "
+            >Password</label
+          >
+          <input
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+            placeholder="Password"
+            autocomplete="off"
+          />
+        </div>
+
+        <div>
+          <label for="exampleInputPassword2" class="form-label mt-4 text-uppercase "
+            >Repetir Password</label
+          >
+          <input
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+            placeholder="Repetir Password"
+            autocomplete="off"
+          />
+        </div>
+
+        <button class="btn btn-info text-uppercase mt-4  d-block mx-auto" type="submit">Registrarse</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

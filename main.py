@@ -4,7 +4,7 @@ from flask import Flask,render_template,request,redirect,url_for,flash,session
 from werkzeug.security import check_password_hash
 from database import (crear_data_base,insertar_usuario,buscar_username,
                       buscar_username_password,buscar_tareas_por_user_id,
-                      agregar_tarea)
+                      agregar_tarea,obtener_tarea_por_id,borrar_tarea_db)
 
 #Cargar variable de entorno
 load_dotenv()
@@ -94,6 +94,26 @@ def login():
 
     return render_template('login.html')
 
+#Borrar tarea
+@app.route('/borrar/<int:id>',methods=["POST"])
+def borrar_tarea(id):
+    if 'user_id' not in session:
+        return redirect('/login')
+
+
+    usuario_id = session['user_id']
+
+    # Obtener la tarea de la base de datos
+    tarea = obtener_tarea_por_id(id)
+
+    # Verifica que la tarea pertenece al usuario
+    if tarea and tarea['user_id'] == usuario_id:
+        borrar_tarea_db(id)
+        flash('Tarea borrada correctamente')
+    else:
+        flash('No tienes permiso para borrar esta tarea')
+
+    return redirect('/tareas')
 
 if __name__ == "__main__":
     app.run(debug=True)

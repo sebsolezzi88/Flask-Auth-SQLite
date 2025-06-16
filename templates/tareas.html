@@ -5,6 +5,20 @@
     <h3>Hola: <small>{{user_name}}</small></h3>
   </div>
 
+  <div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            {% with mensajes = get_flashed_messages() %}
+                 {% if mensajes %}
+                    {% for msg in mensajes %}
+                        <p class="text-white p-3 fw-bold bg-success">{{ msg }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+  </div>
+  
   <div class="row">
     <!-- Para el formulario -->
     <div class="col-12 col-md-6">
@@ -53,7 +67,7 @@
     <div class="col-12 col-md-6">
         {% if tareas %}
             <h4>Tareas Pendientes</h4>
-            <table class="table table-hover">
+            <table class="table table-hover border border-1 border-info p-4">
             <thead>
                 <tr>
                     <th scope="col">Titulo</th>
@@ -62,10 +76,14 @@
                 </tr>
             </thead>
             {% for tarea in tareas %}
-                <tr class="table-secondary">
+                <tr class="table-secondary border border-1 border-info p-4">
                 <th scope="row">{{tarea['titulo']}}</th>
                 <td><a class="btn btn-primary" href="">Actualizar</a></td>
-                <td><a class="btn btn-danger" href="">Borrar</a></td>
+                <td>
+                    <form action="{{ url_for('borrar_tarea', id=tarea['id']) }}" method="POST" style="display:inline;">
+                    <button class="btn btn-danger" type="submit">Borrar</button>
+                </form>
+                </td>
                 </tr>
             {% endfor %}
             </table>

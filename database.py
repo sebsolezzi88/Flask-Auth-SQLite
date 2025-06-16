@@ -5,11 +5,11 @@ from werkzeug.security import generate_password_hash
 
 #Cargar variable de entorno
 load_dotenv()
-
+DATABASE_PATH = os.environ.get('DATABASE_PATH', 'basedatos.db')
 
 #Crear base de datos
 def crear_data_base():
-    with sqlite3.connect(os.environ.get('DATABASE_PATH')) as conn:
+    with sqlite3.connect(DATABASE_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
@@ -33,19 +33,19 @@ def crear_data_base():
 def insertar_usuario(username,password):
     #hashear password
     passwordhash = generate_password_hash(password)
-    with sqlite3.connect(os.environ.get('DATABASE_PATH')) as conn:
+    with sqlite3.connect(DATABASE_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("INSERT INTO users (username, password) VALUES (?, ?);",(username,passwordhash))
 
 def buscar_username(username):
-    with sqlite3.connect(os.environ.get('DATABASE_PATH')) as conn:
+    with sqlite3.connect(DATABASE_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT username FROM users WHERE username = ?;",(username,))
         user = cursor.fetchone()
         return user
     
 def buscar_username_password(username):
-    with sqlite3.connect(os.environ.get('DATABASE_PATH')) as conn:
+    with sqlite3.connect(DATABASE_PATH) as conn:
         conn.row_factory = sqlite3.Row #para que regrese un diccionario
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM users WHERE username = ?;",(username,))
@@ -54,7 +54,7 @@ def buscar_username_password(username):
 
 
 def buscar_tareas_por_user_id(userid):
-    with sqlite3.connect(os.environ.get('DATABASE_PATH')) as conn:
+    with sqlite3.connect(DATABASE_PATH) as conn:
         conn.row_factory = sqlite3.Row #para que regrese un diccionario
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM tareas WHERE user_id = ?",(userid,))
@@ -63,6 +63,19 @@ def buscar_tareas_por_user_id(userid):
     
 
 def agregar_tarea(titulo,descripcion,user_id):
-    with sqlite3.connect(os.environ.get('DATABASE_PATH')) as conn:
+    with sqlite3.connect(DATABASE_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("INSERT INTO tareas (titulo, descripcion, user_id) VALUES (?,?,?) ",(titulo,descripcion,user_id))
+
+def obtener_tarea_por_id(tarea_id):
+    with sqlite3.connect(DATABASE_PATH) as conn:
+        conn.row_factory = sqlite3.Row #para que regrese un diccionario
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM tareas WHERE id = ?",(tarea_id,))
+        tareas = cursor.fetchone()
+        return tareas
+    
+def borrar_tarea_db(tarea_id):
+    with sqlite3.connect(DATABASE_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM tareas WHERE id = ?",(tarea_id,))

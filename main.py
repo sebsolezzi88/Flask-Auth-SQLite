@@ -1,6 +1,8 @@
 from flask import Flask,render_template
+from database import (crear_data_base)
 
 
+crear_data_base()
 app = Flask(__name__)
 
 

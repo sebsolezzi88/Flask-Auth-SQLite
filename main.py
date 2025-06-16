@@ -149,7 +149,7 @@ def actulizar_tarea(id):
         descripcion = request.form['descripcion'].strip()
         actualizar_tarea_db(titulo,descripcion,id)
 
-        flash('Tarea actulizada')
+        flash('Tarea actulizada','success')
         return redirect('/tareas')
     
     

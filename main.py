@@ -4,7 +4,7 @@ from flask import Flask,render_template,request,redirect,url_for,flash,session
 from werkzeug.security import check_password_hash
 from database import (crear_data_base,insertar_usuario,buscar_username,
                       buscar_username_password,buscar_tareas_por_user_id,
-                      agregar_tarea,obtener_tarea_por_id,borrar_tarea_db)
+                      agregar_tarea,obtener_tarea_por_id,borrar_tarea_db, actualizar_tarea_db)
 
 #Cargar variable de entorno
 load_dotenv()
@@ -14,6 +14,10 @@ crear_data_base()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
+
+@app.route('/')
+def index():
+    return redirect(url_for('login'))
 
 
 @app.route('/tareas', methods=["GET", "POST"])
@@ -31,7 +35,6 @@ def tareas():
     if request.method == "POST":
         titulo = request.form['titulo'].strip()
         descripcion = request.form['descripcion'].strip()
-        print(f"T:{titulo}, des:{descripcion} y el id:{user_id}")
         
         agregar_tarea(titulo,descripcion,user_id)
     
@@ -102,7 +105,7 @@ def login():
 @app.route('/borrar/<int:id>',methods=["POST"])
 def borrar_tarea(id):
     if 'user_id' not in session:
-        return redirect('/login')
+        return redirect(url_for('login'))
 
 
     usuario_id = session['user_id']
@@ -117,7 +120,39 @@ def borrar_tarea(id):
     else:
         flash('No tienes permiso para borrar esta tarea')
 
-    return redirect('/tareas')
+    return redirect(url_for('tareas'))
+
+
+#Actualizar tarea
+@app.route('/actualizar/<int:id>',methods=["GET","POST"])
+def actulizar_tarea(id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    user_id = session['user_id']
+    user_name = session['username']
+
+    # Obtener la tarea de la base de datos
+    tarea = obtener_tarea_por_id(id)
+
+    #Comprar si la tarea a actulizar corresponde al mismo usuario
+    if(tarea["user_id"] != user_id):
+        flash('No tienes permiso para borrar esta tarea')
+        return redirect(url_for('tareas'))
+
+    if request.method == 'POST':
+        titulo = request.form['titulo'].strip()
+        descripcion = request.form['descripcion'].strip()
+        actualizar_tarea_db(titulo,descripcion,id)
+
+        flash('Tarea actulizada')
+        return redirect('/tareas')
+    
+    
+    
+
+    return render_template('actualizar.html',logged_in=True,tarea=tarea,user_name=user_name)
+
 
 #Cerrar sesion
 @app.route('/logout')

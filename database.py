@@ -79,3 +79,8 @@ def borrar_tarea_db(tarea_id):
     with sqlite3.connect(DATABASE_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("DELETE FROM tareas WHERE id = ?",(tarea_id,))
+
+def actualizar_tarea_db(titulo,descripcion,tarea_id):
+    with sqlite3.connect(DATABASE_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("UPDATE tareas SET titulo = ? , descripcion = ? WHERE id = ?",(titulo,descripcion,tarea_id))

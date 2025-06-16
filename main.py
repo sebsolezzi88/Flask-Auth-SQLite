@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,request
 from database import (crear_data_base)
 
 
@@ -10,9 +10,16 @@ app = Flask(__name__)
 def index():
     return 'Inicio de app'
 
-@app.route("/registro")
+@app.route("/registro", methods=["GET", "POST"])
 def registro():
-    return render_template('registro.html')
+    if request.method == "POST":
+        print(request.form['username'])
+        print(request.form['password'])
+        print(request.form['passwordr'])
+
+        return 'diste post'
+    else:
+        return render_template('registro.html')
 
 @app.route('/login')
 def login():

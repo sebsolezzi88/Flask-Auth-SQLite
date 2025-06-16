@@ -27,3 +27,10 @@ def crear_data_base():
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )
         ''')
+
+def buscar_username(username):
+    with sqlite3.connect(os.environ.get('DATABASE_PATH')) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE username = ?",(username))
+        user = cursor.fetchone()
+        return user

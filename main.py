@@ -135,6 +135,10 @@ def actulizar_tarea(id):
     # Obtener la tarea de la base de datos
     tarea = obtener_tarea_por_id(id)
 
+    if tarea is None: # Si la tarea no se encontró en la base de datos
+        flash('La tarea especificada no existe.', 'danger') # Mensaje para el usuario
+        return redirect(url_for('tareas'))
+
     #Comprar si la tarea a actulizar corresponde al mismo usuario
     if(tarea["user_id"] != user_id):
         flash('No tienes permiso para borrar esta tarea')

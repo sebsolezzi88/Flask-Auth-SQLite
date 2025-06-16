@@ -54,14 +54,14 @@ Este es un proyecto simple de gestión de tareas creado con **Flask**, que permi
 
 ```
 /mi_proyecto
-├── app.py
+├── main.py
+├── static
+│    └──bootstrap.css
 ├── templates/
 │   ├── login.html
 │   ├── registro.html
 │   └── tareas.html
-├── static/
-│   └── bootswatch/
-├── bd.py
+├── batabase.py
 ├── .gitignore
 └── README.md
 ```

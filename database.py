@@ -17,3 +17,13 @@ def crear_data_base():
             password TEXT NOT NULL
         )
     ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS tareas (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                titulo TEXT NOT NULL,
+                descripcion TEXT,
+                fecha_creacion TEXT DEFAULT CURRENT_TIMESTAMP,
+                user_id INTEGER NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        ''')

@@ -5,6 +5,13 @@
 <div class="container">
   <div class="mt-5 row">
     <div class="col-12 col-md-6 mx-auto">
+      {% with mensajes = get_flashed_messages() %}
+         {% if mensajes %}
+              {% for msg in mensajes %}
+                <p class="text-white p-3 fw-bold bg-success">{{ msg }}</p>
+              {% endfor %}
+        {% endif %}
+      {% endwith %}
       <form class="border border-1 border-info p-4 rounded">
         <legend class="text-uppercase text-center text-info ">Login</legend>
         <div class="row">

@@ -1,6 +1,7 @@
 import os
 import sqlite3
 from dotenv import load_dotenv
+from werkzeug.security import generate_password_hash
 
 #Cargar variable de entorno
 load_dotenv()
@@ -28,9 +29,17 @@ def crear_data_base():
             )
         ''')
 
+#Inserta usuario
+def insertar_usuario(username,password):
+    #hashear password
+    passwordhash = generate_password_hash(password)
+    with sqlite3.connect(os.environ.get('DATABASE_PATH')) as conn:
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?);",(username,passwordhash))
+
 def buscar_username(username):
     with sqlite3.connect(os.environ.get('DATABASE_PATH')) as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE username = ?",(username))
+        cursor.execute("SELECT username FROM users WHERE username = ?;",(username,))
         user = cursor.fetchone()
         return user

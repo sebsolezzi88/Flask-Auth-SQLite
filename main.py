@@ -18,6 +18,8 @@ app.secret_key = os.environ.get('SECRET_KEY')
 
 @app.route('/tareas', methods=["GET", "POST"])
 def tareas():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     tareas = []
     user_id = session['user_id']
     user_name = session['username']
@@ -72,6 +74,8 @@ def registro():
 
 @app.route('/login',methods=["GET","POST"])
 def login():
+    if 'user_id' in session: # Si ya está logueado, redirige a tareas
+        return redirect(url_for('tareas'))
     errores = []
     if request.method == "POST":
         username = request.form['username'].strip()
@@ -114,6 +118,12 @@ def borrar_tarea(id):
         flash('No tienes permiso para borrar esta tarea')
 
     return redirect('/tareas')
+
+#Cerrar sesion
+@app.route('/logout')
+def cerrar_sesion():
+    session.clear()
+    return render_template('login.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

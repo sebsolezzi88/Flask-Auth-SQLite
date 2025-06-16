@@ -3,7 +3,8 @@ from dotenv import load_dotenv
 from flask import Flask,render_template,request,redirect,url_for,flash,session
 from werkzeug.security import check_password_hash
 from database import (crear_data_base,insertar_usuario,buscar_username,
-                      buscar_username_password,buscar_tareas_por_user_id)
+                      buscar_username_password,buscar_tareas_por_user_id,
+                      agregar_tarea)
 
 #Cargar variable de entorno
 load_dotenv()
@@ -15,15 +16,26 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
 
 
-@app.route('/tareas')
+@app.route('/tareas', methods=["GET", "POST"])
 def tareas():
+
+    user_id = session['user_id']
+    user_name = session['username']
+
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
+    #Agregar a la base de datos
+    if request.method == "POST":
+        titulo = request.form['titulo'].strip()
+        descripcion = request.form['descripcion'].strip()
+        print(f"T:{titulo}, des:{descripcion} y el id:{user_id}")
+        
+        agregar_tarea(titulo,descripcion,user_id)
+    
     #Buscar las tareas del usuario
-    user_id = session['user_id']
-    user_name = session['username']
     tareas = buscar_tareas_por_user_id(user_id)
+    print(tareas)
     
     return render_template('tareas.html',user_name=user_name)
 

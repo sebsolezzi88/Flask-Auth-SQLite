@@ -60,3 +60,9 @@ def buscar_tareas_por_user_id(userid):
         cursor.execute("SELECT * FROM tareas WHERE user_id = ?",(userid,))
         tareas = cursor.fetchall()
         return tareas
+    
+
+def agregar_tarea(titulo,descripcion,user_id):
+    with sqlite3.connect(os.environ.get('DATABASE_PATH')) as conn:
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO tareas (titulo, descripcion, user_id) VALUES (?,?,?) ",(titulo,descripcion,user_id))

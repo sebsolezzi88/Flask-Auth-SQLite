@@ -21,8 +21,11 @@ def tareas():
         return redirect(url_for('login'))
     
     #Buscar las tareas del usuario
+    user_id = session['user_id']
+    user_name = session['username']
+    tareas = buscar_tareas_por_user_id(user_id)
     
-    return render_template('tareas.html')
+    return render_template('tareas.html',user_name=user_name)
 
 @app.route("/registro", methods=["GET", "POST"])
 def registro():

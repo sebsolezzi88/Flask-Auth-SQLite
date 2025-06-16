@@ -1,20 +1,22 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
 
+{% block content %}
+     
 <div class="container">
   <div class="mt-5 row">
     <div class="col-12 col-md-6 mx-auto">
       <form class="border border-1 border-info p-4 rounded">
-        <legend class="text-uppercase text-center text-info ">Registro</legend>
+        <legend class="text-uppercase text-center text-info ">Login</legend>
         <div class="row">
           <div>
             <label for="exampleInputPassword1" class="form-label mt-4 text-uppercase "
               >UserName</label
             >
             <input
-              name="username"
               type="text"
               class="form-control"
               id="username"
+              name="username"
               placeholder="Tu nombre de usuario"
               autocomplete="off"
             />
@@ -26,30 +28,16 @@
             >Password</label
           >
           <input
-          name="password"
             type="password"
             class="form-control"
-            id="exampleInputPassword1"
+            name="password"
+            id="password"
             placeholder="Password"
             autocomplete="off"
           />
         </div>
 
-        <div>
-          <label for="exampleInputPassword2" class="form-label mt-4 text-uppercase "
-            >Repetir Password</label
-          >
-          <input
-            name="passwordr"
-            type="password"
-            class="form-control"
-            id="passwordr"
-            placeholder="Repetir Password"
-            autocomplete="off"
-          />
-        </div>
-
-        <button class="btn btn-info text-uppercase mt-4  d-block mx-auto" type="submit">Registrarse</button>
+        <button class="btn btn-info text-uppercase mt-4  d-block mx-auto" type="submit">Login</button>
       </form>
     </div>
   </div>

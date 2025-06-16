@@ -84,6 +84,3 @@ Este proyecto está en desarrollo. Futuras mejoras pueden incluir:
 
 ---
 
-## 📄 Licencia
-
-Este proyecto es de código abierto. Puedes modificarlo y usarlo para tus propios fines educativos o personales.

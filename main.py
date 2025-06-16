@@ -116,9 +116,9 @@ def borrar_tarea(id):
     # Verifica que la tarea pertenece al usuario
     if tarea and tarea['user_id'] == usuario_id:
         borrar_tarea_db(id)
-        flash('Tarea borrada correctamente')
+        flash('Tarea borrada correctamente','success')
     else:
-        flash('No tienes permiso para borrar esta tarea')
+        flash('No tienes permiso para borrar esta tarea','danger')
 
     return redirect(url_for('tareas'))
 

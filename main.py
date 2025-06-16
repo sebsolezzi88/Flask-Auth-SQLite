@@ -39,7 +39,7 @@ def tareas():
     tareas = buscar_tareas_por_user_id(user_id)
     print(tareas)
     
-    return render_template('tareas.html',user_name=user_name,tareas=tareas)
+    return render_template('tareas.html',logged_in=True,user_name=user_name,tareas=tareas)
 
 @app.route("/registro", methods=["GET", "POST"])
 def registro():
@@ -123,7 +123,7 @@ def borrar_tarea(id):
 @app.route('/logout')
 def cerrar_sesion():
     session.clear()
-    return render_template('login.html')
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     app.run(debug=True)

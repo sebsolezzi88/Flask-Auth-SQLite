@@ -12,7 +12,13 @@
               {% endfor %}
         {% endif %}
       {% endwith %}
-      <form class="border border-1 border-info p-4 rounded">
+
+      {% if errores %}
+        {%for error in errores %}
+           <p class="text-white p-3 fw-bold bg-danger">{{ error }}</p>
+        {% endfor%}
+      {% endif%}
+      <form method="post" class="border border-1 border-info p-4 rounded">
         <legend class="text-uppercase text-center text-info ">Login</legend>
         <div class="row">
           <div>

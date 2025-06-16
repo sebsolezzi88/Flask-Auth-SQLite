@@ -1,7 +1,8 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask,render_template,request,redirect,url_for,flash
-from database import (crear_data_base,insertar_usuario,buscar_username)
+from flask import Flask,render_template,request,redirect,url_for,flash,session
+from werkzeug.security import check_password_hash
+from database import (crear_data_base,insertar_usuario,buscar_username,buscar_username_password)
 
 #Cargar variable de entorno
 load_dotenv()
@@ -13,9 +14,12 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
 
 
-@app.route('/')
-def index():
-    return 'Inicio de app'
+@app.route('/tareas')
+def tareas():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    return render_template('tareas.html')
 
 @app.route("/registro", methods=["GET", "POST"])
 def registro():
@@ -48,8 +52,28 @@ def registro():
 
     return render_template('registro.html')
 
-@app.route('/login')
+@app.route('/login',methods=["GET","POST"])
 def login():
+    errores = []
+    if request.method == "POST":
+        username = request.form['username'].strip()
+        password = request.form['password'].strip()
+
+        if not username or not password:
+            errores.append("Debe ingresar usuario y contraseña")
+            return render_template('login.html', errores=errores)
+
+        user = buscar_username_password(username)
+
+        if user and check_password_hash(user['password'], password):
+            session['user_id'] = user['id']
+            session['username'] = user['username']
+            return redirect(url_for('tareas'))
+        else:
+            errores.append("Usuario o contraseña incorrectos")
+            return render_template('login.html', errores=errores)
+        
+
     return render_template('login.html')
 
 

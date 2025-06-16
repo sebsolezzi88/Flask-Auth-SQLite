@@ -43,3 +43,11 @@ def buscar_username(username):
         cursor.execute("SELECT username FROM users WHERE username = ?;",(username,))
         user = cursor.fetchone()
         return user
+    
+def buscar_username_password(username):
+    with sqlite3.connect(os.environ.get('DATABASE_PATH')) as conn:
+        conn.row_factory = sqlite3.Row #para que regrese un diccionario
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE username = ?;",(username,))
+        user = cursor.fetchone()
+        return user

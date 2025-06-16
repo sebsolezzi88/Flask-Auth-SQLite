@@ -2,7 +2,8 @@ import os
 from dotenv import load_dotenv
 from flask import Flask,render_template,request,redirect,url_for,flash,session
 from werkzeug.security import check_password_hash
-from database import (crear_data_base,insertar_usuario,buscar_username,buscar_username_password)
+from database import (crear_data_base,insertar_usuario,buscar_username,
+                      buscar_username_password,buscar_tareas_por_user_id)
 
 #Cargar variable de entorno
 load_dotenv()
@@ -18,6 +19,8 @@ app.secret_key = os.environ.get('SECRET_KEY')
 def tareas():
     if 'user_id' not in session:
         return redirect(url_for('login'))
+    
+    #Buscar las tareas del usuario
     
     return render_template('tareas.html')
 

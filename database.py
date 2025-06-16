@@ -51,3 +51,12 @@ def buscar_username_password(username):
         cursor.execute("SELECT * FROM users WHERE username = ?;",(username,))
         user = cursor.fetchone()
         return user
+
+
+def buscar_tareas_por_user_id(userid):
+    with sqlite3.connect(os.environ.get('DATABASE_PATH')) as conn:
+        conn.row_factory = sqlite3.Row #para que regrese un diccionario
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM tareas WHERE user_id = ?",(userid,))
+        tareas = cursor.fetchall()
+        return tareas

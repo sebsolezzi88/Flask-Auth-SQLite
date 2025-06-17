@@ -1,86 +1,83 @@
-
 # 📝 Gestor de Tareas con Flask
 
-Este es un proyecto simple de gestión de tareas creado con **Flask**, que permite a los usuarios:
+Este es un proyecto simple de gestión de tareas personales desarrollado con **Flask**. Permite a los usuarios:
 
 - Registrarse
 - Iniciar sesión
 - Crear tareas personales
-- Visualizar solo sus propias tareas gracias al sistema de autenticación
+- Visualizar únicamente sus propias tareas gracias al sistema de autenticación
 
 ---
 
 ## 🚀 Tecnologías utilizadas
 
 - [Flask](https://flask.palletsprojects.com/) – Microframework de Python para desarrollo web.
-- [SQLite](https://www.sqlite.org/) – Base de datos ligera y fácil de usar.
-- [Bootswatch](https://bootswatch.com/) – Temas personalizados para Bootstrap (para los estilos).
+- [SQLite](https://www.sqlite.org/) – Base de datos ligera y fácil de integrar.
+- [Bootswatch](https://bootswatch.com/) – Temas personalizados para Bootstrap (estilizado rápido y atractivo).
 
 ---
 
 ## 🎯 Funcionalidades
 
-- Registro de usuario con validación y contraseña hasheada.
+- Registro de usuario con validación y contraseñas hasheadas.
 - Inicio de sesión con autenticación segura.
-- Creación de tareas vinculadas al usuario que las crea.
-- Cada usuario puede ver solo sus propias tareas.
-- Protegido contra acceso no autorizado a rutas privadas.
+- Creación de tareas vinculadas a cada usuario.
+- Visualización exclusiva de tareas propias.
+- Rutas protegidas contra accesos no autorizados.
 
 ---
 
 ## ⚙️ Instalación
 
 1. Clona el repositorio:
+
    ```bash
    git clone https://github.com/sebsolezzi88/Flask-Auth-SQLite
    cd Flask-Auth-SQLite
    ```
 
 2. Instala las dependencias:
+
    ```bash
    pip install flask
    ```
 
 3. Ejecuta la aplicación:
+
    ```bash
-   python app.py
+   python main.py
    ```
 
-4. Abre tu navegador en [http://localhost:5000](http://localhost:5000)
+4. Abre tu navegador y visita: [http://localhost:5000](http://localhost:5000)
 
 ---
 
-## 📁 Estructura del proyecto (ejemplo)
+## 📁 Estructura del proyecto
 
-```
-/mi_proyecto
+```bash
+/Flask-Auth-SQLite
 ├── main.py
-├── static
-│    └──bootstrap.css
+├── database.py
+├── static/
+│   └── bootstrap.css
 ├── templates/
+│   ├── base.html
 │   ├── login.html
 │   ├── registro.html
-│   └── tareas.html
-├── batabase.py
+│   ├── tareas.html
+│   ├── actualizar.html
+│   └── about.html
 ├── .gitignore
 └── README.md
 ```
+
+> ✅ Nota: Asegúrate de que los nombres de archivos y rutas sean consistentes. Por ejemplo, se corrigieron nombres como `actulizar.html` a `actualizar.html`, y la plantilla `base.html` debe estar bien referenciada.
 
 ---
 
 ## 🔐 Autenticación
 
-El proyecto utiliza contraseñas hasheadas con `werkzeug.security` (`generate_password_hash` y `check_password_hash`). El acceso a las tareas está protegido mediante sesiones, garantizando que cada usuario vea solo sus propias tareas.
+Este proyecto utiliza el módulo `werkzeug.security` para hashear contraseñas mediante `generate_password_hash` y verificar su validez con `check_password_hash`.  
+Las sesiones se usan para proteger rutas privadas, asegurando que cada usuario solo pueda acceder a su información.
 
 ---
-
-## 💡 Notas
-
-Este proyecto está en desarrollo. Futuras mejoras pueden incluir:
-
-- Edición y eliminación de tareas
-- Marcado de tareas completadas
-- Filtro por fecha o estado
-
----
-
